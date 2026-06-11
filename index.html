@@ -50,18 +50,6 @@ a:hover { text-decoration: underline; }
   text-align: center;
   padding: 60px 0 32px;
 }
-.hero .venue {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  color: var(--teal);
-  background: #f0faf7;
-  border: 1px solid #d0ede6;
-  border-radius: 999px;
-  padding: 5px 16px;
-  margin-bottom: 20px;
-}
 .hero h1 {
   font-size: clamp(28px, 5vw, 44px);
   font-weight: 700;
@@ -326,11 +314,8 @@ footer a { color: var(--text-dim); }
 </head>
 <body>
 
-<!-- ======= HERO ======= -->
 <header class="hero">
   <div class="container">
-    <div class="venue">ECCV 2026</div>
-
     <h1>Wake up for Touch!<br>Mask-isolated Tactile Alignment Learning in MLLMs</h1>
 
     <p class="subtitle">Teaching compact multimodal models to <em>feel</em> without forgetting how to <em>see</em>.</p>
@@ -359,7 +344,6 @@ footer a { color: var(--text-dim); }
       </a>
     </div>
 
-    <!-- Parameter Grid -->
     <div class="grid-section">
       <div class="grid-caption">
         <span>The dormant subspace, waking up for touch</span>
@@ -373,7 +357,6 @@ footer a { color: var(--text-dim); }
 
 <hr class="sep">
 
-<!-- ======= ABSTRACT ======= -->
 <section>
   <div class="container">
     <h2>Abstract</h2>
@@ -385,7 +368,6 @@ footer a { color: var(--text-dim); }
 
 <hr class="sep">
 
-<!-- ======= PROBLEM ======= -->
 <section>
   <div class="container">
     <h2>The Problem: Catastrophic Forgetting</h2>
@@ -399,7 +381,6 @@ footer a { color: var(--text-dim); }
 
 <hr class="sep">
 
-<!-- ======= CONTRIBUTIONS ======= -->
 <section>
   <div class="container">
     <h2>Key Contributions</h2>
@@ -422,7 +403,6 @@ footer a { color: var(--text-dim); }
 
 <hr class="sep">
 
-<!-- ======= METHOD ======= -->
 <section>
   <div class="container">
     <h2>Method</h2>
@@ -448,7 +428,6 @@ footer a { color: var(--text-dim); }
 
 <hr class="sep">
 
-<!-- ======= RESULTS ======= -->
 <section>
   <div class="container">
     <h2>Results</h2>
@@ -495,38 +474,15 @@ footer a { color: var(--text-dim); }
 
 <hr class="sep">
 
-<!-- ======= QUALITATIVE ======= -->
-<section>
-  <div class="container">
-    <h2>Qualitative Results</h2>
-    <p class="centered" style="color:var(--text-dim);">Given paired RGB and tactile contact images, each model predicts surface attributes. Splash stays grounded in touch where baselines fall back on visual appearance.</p>
-    <figure>
-      <img src="static/images/fig3a_tvl.png" alt="Qualitative results on TVL benchmark." />
-      <figcaption><b>Figure 3a.</b> TVL benchmark — Splash predicts attributes like "gritty, rough, textured" matching the ground truth, while baselines drift toward visually plausible but tactilely wrong descriptors.</figcaption>
-    </figure>
-    <figure>
-      <img src="static/images/fig3b_ssvtp.png" alt="Qualitative results on SSVTP benchmark." />
-      <figcaption><b>Figure 3b.</b> SSVTP benchmark — even at the 1B scale, Splash recovers fabric and surface properties that 7B baselines miss.</figcaption>
-    </figure>
-  </div>
-</section>
-
-<hr class="sep">
-
-<!-- ======= BIBTEX ======= -->
 <section>
   <div class="container">
     <h2>BibTeX</h2>
     <div class="bibtex-box">
       <button class="copy-btn" id="copyBib">Copy</button>
-      <pre id="bibText">@inproceedings{park2026splash,
-  title     = {Wake up for Touch! Mask-isolated Tactile
-               Alignment Learning in MLLMs},
-  author    = {Park, Yoonhyung and Kim, Minji and
-               Moon, Sungwon and Lee, Jiyoung},
-  booktitle = {Proceedings of the European Conference
-               on Computer Vision (ECCV)},
-  year      = {2026}
+      <pre id="bibText">@article{park2026splash,
+  title   = {Wake up for Touch! Mask-isolated Tactile Alignment Learning in MLLMs},
+  author  = {Park, Yoonhyung and Kim, Minji and Moon, Sungwon and Lee, Jiyoung},
+  year    = {2026}
 }</pre>
     </div>
   </div>
