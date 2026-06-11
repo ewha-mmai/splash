@@ -256,6 +256,7 @@ tbody tr:last-child td { border-bottom: none; }
 .row-ours { background: #f0faf7; }
 .row-ours td:first-child { color: var(--teal); font-weight: 700; }
 .best { color: var(--teal); font-weight: 700; }
+.second { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--text-faint); }
 .tbl-note { font-size: 13px; color: var(--text-faint); margin-top: 8px; text-align: center; }
 
 /* BibTeX */
@@ -412,10 +413,12 @@ footer a { color: var(--text-dim); }
       <div class="method-card">
         <span class="tag">Step 1 — Locate</span>
         <h3>Score every weight against vision</h3>
+        <p>Using a small vision-language calibration set, each weight gets an importance score from its magnitude and input activation. Low-scoring weights — the dormant subspace — contribute little to pretrained behavior. The first and last transformer blocks are always kept critical for stability.</p>
       </div>
       <div class="method-card">
         <span class="tag">Step 2 — Align</span>
         <h3>Train only the dormant weights for touch</h3>
+        <p>A binary mask sends gradients exclusively to the dormant subspace while the tactile front-end trains freely. Critical vision-language pathways are left untouched — unlike additive methods such as LoRA, there's no perturbation merged back into the backbone.</p>
       </div>
     </div>
 
@@ -442,10 +445,10 @@ footer a { color: var(--text-dim); }
           <tr><td>Zero-shot</td><td>InternVL-1B</td><td>3.61</td><td>3.54</td><td>3.45</td><td>3.53</td></tr>
           <tr><td>Zero-shot</td><td>Qwen2.5-VL-3B</td><td>3.74</td><td>3.40</td><td>3.57</td><td>3.57</td></tr>
           <tr><td>UniTouch</td><td>LLaMA-7B</td><td>3.73</td><td>4.04</td><td>3.44</td><td>3.74</td></tr>
-          <tr><td>TVL</td><td>LLaMA-7B</td><td>5.27</td><td>4.38</td><td>3.29</td><td>4.31</td></tr>
+          <tr><td>TVL</td><td>LLaMA-7B</td><td class="second">5.27</td><td class="second">4.38</td><td>3.29</td><td>4.31</td></tr>
           <tr><td>TVL</td><td>Qwen2.5-VL-3B</td><td>4.98</td><td>4.29</td><td>4.22</td><td>4.50</td></tr>
           <tr class="row-ours"><td>Splash-1B</td><td>InternVL-1B</td><td class="best">5.69</td><td>4.34</td><td class="best">5.02</td><td class="best">5.01</td></tr>
-          <tr class="row-ours"><td>Splash-3B</td><td>Qwen2.5-VL-3B</td><td>5.48</td><td class="best">4.39</td><td>4.86</td><td>4.91</td></tr>
+          <tr class="row-ours"><td>Splash-3B</td><td>Qwen2.5-VL-3B</td><td>5.48</td><td class="best">4.39</td><td class="second">4.86</td><td class="second">4.91</td></tr>
         </tbody>
       </table>
     </div>
@@ -455,20 +458,20 @@ footer a { color: var(--text-dim); }
     <div class="table-scroll">
       <table>
         <thead>
-          <tr><th>Method</th><th>Backbone</th><th>MMMU</th><th>MathVista</th><th>MME<sub>sum</sub></th><th>MMBench-EN</th></tr>
+          <tr><th>Method</th><th>Backbone</th><th>MMMU</th><th>MathVista</th><th>MME<sub>sum</sub></th><th>MMBench-EN</th><th>MMBench-CN</th></tr>
         </thead>
         <tbody>
-          <tr><td>Zero-shot</td><td>InternVL-1B</td><td>40.9</td><td>43.2</td><td>1950</td><td>70.7</td></tr>
-          <tr><td>Zero-shot</td><td>Qwen2.5-VL-3B</td><td>53.1</td><td>62.3</td><td>2157</td><td>79.1</td></tr>
-          <tr><td>UniTouch</td><td>LLaMA-7B</td><td>26.6</td><td>9.0</td><td>27</td><td>8.5</td></tr>
-          <tr><td>TVL</td><td>LLaMA-7B</td><td>26.0</td><td>11.6</td><td>582</td><td>8.6</td></tr>
-          <tr><td>TVL</td><td>Qwen2.5-VL-3B</td><td>50.0</td><td>52.8</td><td>2168</td><td>76.8</td></tr>
-          <tr class="row-ours"><td>Splash-1B</td><td>InternVL-1B</td><td>37.3</td><td>41.0</td><td>1786</td><td>70.2</td></tr>
-          <tr class="row-ours"><td>Splash-3B</td><td>Qwen2.5-VL-3B</td><td class="best">55.3</td><td class="best">65.3</td><td>2155</td><td>78.0</td></tr>
+          <tr><td>Zero-shot</td><td>InternVL-1B</td><td>40.9</td><td>43.2</td><td>1950</td><td>70.7</td><td>66.3</td></tr>
+          <tr><td>Zero-shot</td><td>Qwen2.5-VL-3B</td><td class="second">53.1</td><td class="second">62.3</td><td class="second">2157</td><td class="best">79.1</td><td class="best">78.1</td></tr>
+          <tr><td>UniTouch</td><td>LLaMA-7B</td><td>26.6</td><td>9.0</td><td>27</td><td>8.5</td><td>8.6</td></tr>
+          <tr><td>TVL</td><td>LLaMA-7B</td><td>26.0</td><td>11.6</td><td>582</td><td>8.6</td><td>5.5</td></tr>
+          <tr><td>TVL</td><td>Qwen2.5-VL-3B</td><td>50.0</td><td>52.8</td><td class="best">2168</td><td>76.8</td><td>76.5</td></tr>
+          <tr class="row-ours"><td>Splash-1B</td><td>InternVL-1B</td><td>37.3</td><td>41.0</td><td>1786</td><td>70.2</td><td>60.4</td></tr>
+          <tr class="row-ours"><td>Splash-3B</td><td>Qwen2.5-VL-3B</td><td class="best">55.3</td><td class="best">65.3</td><td>2155</td><td class="second">78.0</td><td class="second">76.9</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="tbl-note">Splash preserves — and on MMMU / MathVista exceeds — the pretrained backbone's VL capability.</p>
+    <p class="tbl-note"><span class="best">Bold</span> = best, <span class="second">underline</span> = second best. Splash preserves — and on MMMU / MathVista exceeds — the pretrained backbone.</p>
   </div>
 </section>
 
