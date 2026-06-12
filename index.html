@@ -413,12 +413,10 @@ footer a { color: var(--text-dim); }
       <div class="method-card">
         <span class="tag">Step 1 — Locate</span>
         <h3>Score every weight against vision</h3>
-        <p>Using a small vision-language calibration set, each weight gets an importance score from its magnitude and input activation. Low-scoring weights — the dormant subspace — contribute little to pretrained behavior. The first and last transformer blocks are always kept critical for stability.</p>
       </div>
       <div class="method-card">
         <span class="tag">Step 2 — Align</span>
         <h3>Train only the dormant weights for touch</h3>
-        <p>A binary mask sends gradients exclusively to the dormant subspace while the tactile front-end trains freely. Critical vision-language pathways are left untouched — unlike additive methods such as LoRA, there's no perturbation merged back into the backbone.</p>
       </div>
     </div>
 
