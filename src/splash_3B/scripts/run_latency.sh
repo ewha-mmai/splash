@@ -1,3 +1,4 @@
+#!/bin/bash
 export PYTHONPATH=$(pwd)/src:$(pwd)
 export GPUS_PER_NODE=1
 export MASTER_PORT=$(shuf -n 1 -i 10000-65535)

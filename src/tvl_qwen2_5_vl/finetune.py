@@ -33,8 +33,8 @@ def _safe_linspace(*args, **kwargs):
     return _original_linspace(*args, **kwargs)
 torch.linspace = _safe_linspace
 
-from src.models.qwen2_5_vl.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
-from src.dataset import FinetuneDataset, DataCollatorForTactileDataset
+from src.tvl_qwen2_5_vl.models.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
+from src.splash_3B.dataset import FinetuneDataset, DataCollatorForTactileDataset
 
 DEFAULT_PRETRAINED_CKPT = os.path.join(root_dir, "src/baseline/outputs/pretrain_bs2/checkpoint-2428")
 DEFAULT_CONFIG_PATH = os.path.join(root_dir, "src/configs/finetune-data-config.yaml")

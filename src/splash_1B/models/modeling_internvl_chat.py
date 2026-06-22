@@ -136,7 +136,7 @@ class InternVLChatModel(PreTrainedModel):
 
 
         # =========================
-        # 🟣 Tactile injection (Autograd-safe, shape-safe)
+        #  Tactile injection (Autograd-safe, shape-safe)
         # =========================
         if pixel_values_tactile is not None:
 
@@ -166,7 +166,7 @@ class InternVLChatModel(PreTrainedModel):
         # reshape back
         input_embeds = flat_embeds.reshape(B, N, C)
 
-        print("🔍 LLM input requires_grad:", input_embeds.requires_grad)
+        print(" LLM input requires_grad:", input_embeds.requires_grad)
 
         outputs = self.language_model(
             inputs_embeds=input_embeds,
@@ -447,7 +447,7 @@ class InternVLChatModel(PreTrainedModel):
             input_embeds = input_embeds.reshape(B, N, C)
         # ==========================================================
 
-        print("🔍 LLM input requires_grad:", input_embeds.requires_grad)
+        print(" LLM input requires_grad:", input_embeds.requires_grad)
 
 
         outputs = self.language_model.generate(

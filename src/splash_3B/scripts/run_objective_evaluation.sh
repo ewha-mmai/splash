@@ -9,8 +9,8 @@ TOPK=${1:-5}
 USE_CONTRADICTION=${2:-false}
 
 
-CSV_PATH="${ROOT_DIR}/src/tvl_qwen2_5_vl/outputs/outputs0508/baseline1/finetune_ia3_t2/inference_4856.csv"
-OUTPUT_JSON="${ROOT_DIR}/src/tvl_qwen2_5_vl/outputs/ia3_outputs/evaluation_objective.json"
+CSV_PATH=${3:-"${ROOT_DIR}/outputs/inference.csv"}
+OUTPUT_JSON=${4:-"${ROOT_DIR}/outputs/evaluation_objective.json"}
 
 
 CMD="PYTHONPATH=$ROOT_DIR python src/objective_evaluation.py \

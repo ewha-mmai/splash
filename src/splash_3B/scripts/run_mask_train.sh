@@ -11,7 +11,6 @@ ROOT_DIR="$(pwd)"
 SPARSITY=${1:-60}
 
 STUDENT_PATH="${ROOT_DIR}/pretrained/Qwen2.5-VL-3B-Instruct"
-TEACHER_PATH="${ROOT_DIR}/pretrained/Qwen2.5-VL-7B-Instruct"
 MASK_PATH="${ROOT_DIR}/src/masks/${SPARSITY}/mask_wanda_shallow_adaptive_${SPARSITY}_samples_128_det.pt"
 TRAIN_CONFIG="${ROOT_DIR}/src/configs/finetune-data-train-config.yaml"
 EVAL_CONFIG="${ROOT_DIR}/src/configs/finetune-data-eval-config.yaml"
@@ -23,7 +22,7 @@ export PYTORCH_ALLOC_CONF=expandable_segments:True
 torchrun \
     --nproc_per_node=$GPUS_PER_NODE \
     --master_port=$MASTER_PORT \
-    src/stage2_mask_train.py \
+    src/splash_3B/stage2_mask_train.py \
     --student_path "$STUDENT_PATH" \
     --mask_path "$MASK_PATH" \
     --train_data_config "$TRAIN_CONFIG" \

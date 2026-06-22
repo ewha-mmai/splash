@@ -34,10 +34,10 @@ for S in "${SPARSITIES[@]}"; do
 
 
     echo ""
-    echo "🚀 Starting Inference..."
+    echo "Starting Inference..."
     echo ""
 
-    python src/inference.py \
+    python src/splash_3B/inference.py \
       --model_mode $MODE \
       --gpu $GPU \
       --base_model $BASE_MODEL \
@@ -47,7 +47,7 @@ for S in "${SPARSITIES[@]}"; do
 
 
     echo ""
-    echo "📊 Starting Evaluation..."
+    echo "Starting Evaluation..."
     echo ""
 
     PYTHONPATH=$ROOT_DIR python src/evaluation.py \
@@ -56,10 +56,10 @@ for S in "${SPARSITIES[@]}"; do
         --output_json $OUTPUT_JSON
 
     echo ""
-    echo "✅ Finished Sparsity=$S Checkpoint=$C"
+    echo "Finished Sparsity=$S Checkpoint=$C"
     echo ""
 
   done
 done
 
-echo "🎉 ALL DONE"
+echo "ALL DONE"

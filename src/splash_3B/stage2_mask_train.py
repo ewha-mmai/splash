@@ -22,10 +22,10 @@ if root_dir not in sys.path:
 if os.path.join(root_dir, "tvl") not in sys.path:
     sys.path.insert(0, os.path.join(root_dir, "tvl"))
 
-from src.models.qwen2_5_vl.modeling_qwen2_5_vl import (
+from src.splash_3B.models.modeling_qwen2_5_vl import (
     Qwen2_5_VLForConditionalGeneration as Custom_QwenVLT
 )
-from src.dataset import FinetuneDataset, DataCollatorForTactileDataset
+from src.splash_3B.dataset import FinetuneDataset, DataCollatorForTactileDataset
 
 @dataclass
 class ModelArguments:

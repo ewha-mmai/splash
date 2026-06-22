@@ -26,8 +26,8 @@ if os.path.join(root_dir, "tvl") not in sys.path:
     sys.path.insert(0, os.path.join(root_dir, "tvl"))   
 
 from tvl.tvl_enc import tacvis
-from src.models.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
-from src.dataset import PretrainDataset, DataCollatorForTactileDataset
+from src.tvl_qwen2_5_vl.models.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
+from src.splash_3B.dataset import PretrainDataset, DataCollatorForTactileDataset
 
 _original_linspace = torch.linspace
 def _safe_linspace(*args, **kwargs):
