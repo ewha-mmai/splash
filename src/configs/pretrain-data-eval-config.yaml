@@ -1,0 +1,5 @@
+META:
+  - "dataset/tvl_dataset/hct/data1/val_split.csv"
+  - "dataset/tvl_dataset/hct/data2/val_split.csv"
+  - "dataset/tvl_dataset/hct/data3/val_split.csv"
+  - "dataset/tvl_dataset/ssvtp/val_split.csv"

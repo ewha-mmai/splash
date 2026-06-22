@@ -1,0 +1,5 @@
+META:
+  - "dataset/tvl_dataset/ssvtp/finetune_val.json"
+  - "dataset/tvl_dataset/hct/data1/finetune_val.json"
+  - "dataset/tvl_dataset/hct/data2/finetune_val.json"
+  - "dataset/tvl_dataset/hct/data3/finetune_val.json"
