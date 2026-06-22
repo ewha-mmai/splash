@@ -1,18 +1,19 @@
 import os
+import sys
 import csv
 import argparse
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
 
-from transformers import AutoTokenizer, AutoProcessor
-from models.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.dirname(os.path.dirname(current_dir))
+if root_dir not in sys.path:
+    sys.path.insert(0, root_dir)
 
-from util.data_utils import (
-    load_vision_image,
-    load_tactile_data,
-    inject_tactile_tokens
-)
+from transformers import AutoTokenizer, AutoProcessor
+from src.splash_3B.models.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
+from src.util.data_utils import load_vision_image, load_tactile_data, inject_tactile_tokens
 
 
 def parse_args():

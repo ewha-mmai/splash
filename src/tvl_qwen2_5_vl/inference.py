@@ -10,8 +10,6 @@ import torch
 from PIL import Image
 from transformers import AutoTokenizer, AutoProcessor
 from peft import PeftModel
-from models.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
-from src.util.data_utils import load_vision_image, load_tactile_data, inject_tactile_tokens
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.dirname(os.path.dirname(current_dir))
@@ -19,6 +17,9 @@ root_dir = os.path.dirname(os.path.dirname(current_dir))
 for path in [root_dir, os.path.join(root_dir, "tvl")]:
     if path not in sys.path:
         sys.path.insert(0, path)
+
+from src.tvl_qwen2_5_vl.models.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
+from src.util.data_utils import load_vision_image, load_tactile_data, inject_tactile_tokens
 
 try:
     from tvl.tvl_enc import tacvis
