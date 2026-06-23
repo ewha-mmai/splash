@@ -5,12 +5,12 @@ ROOT_DIR="$(pwd)"
 export CUDA_VISIBLE_DEVICES=""
 
 SPARSITY=${1:-60}
-CKPT_STEP=${2:-1214}
+CKPT_STEP=${2:-2428}
 TOPK=${3:-5}
 USE_CONTRADICTION=${4:-false}
 
-CSV_PATH=${5:-"${ROOT_DIR}/src/splash_3B/outputs/${SPARSITY}/inference_${CKPT_STEP}.csv"}
-OUTPUT_JSON=${6:-"${ROOT_DIR}/src/splash_3B/outputs/${SPARSITY}/objective_evaluation_${CKPT_STEP}.json"}
+CSV_PATH=${5:-"${ROOT_DIR}/src/splash_1B/outputs/${SPARSITY}/inference_${CKPT_STEP}.csv"}
+OUTPUT_JSON=${6:-"${ROOT_DIR}/src/splash_1B/outputs/${SPARSITY}/objective_evaluation_${CKPT_STEP}.json"}
 
 CMD=(
   python src/objective_evaluation.py
@@ -24,7 +24,7 @@ if [ "$USE_CONTRADICTION" = true ]; then
 fi
 
 echo "========================================================="
-echo "Running SPLASH-3B Objective Evaluation"
+echo "Running SPLASH-1B Objective Evaluation"
 echo "========================================================="
 echo "SPARSITY            : $SPARSITY"
 echo "CKPT_STEP           : $CKPT_STEP"

@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 from torchvision import transforms
 from transformers import AutoProcessor, AutoTokenizer, AutoImageProcessor
 from src.util.data_utils import load_vision_image, load_tactile_data
-from tvl.tvl_enc import tacvis
+from src.util import tactile_preprocess as tacvis
 
 logger = logging.getLogger(__name__)
 

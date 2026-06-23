@@ -1,29 +1,17 @@
 import os
-import sys
 import torch
 from PIL import Image
 import torchvision.transforms as transforms
 from torchvision.transforms import InterpolationMode
+from src.util import tactile_preprocess as tacvis
 
 BICUBIC = InterpolationMode.BICUBIC
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-root_dir = os.path.dirname(os.path.dirname(current_dir))
 
 vision_transform = transforms.Compose([
 
     transforms.RandomResizedCrop(size=(224, 224), scale=(0.9, 1.0), ratio=(0.75, 1.3333), interpolation=BICUBIC),
     
 ])
-
-for path in [root_dir, os.path.join(root_dir, "tvl")]:
-    if path not in sys.path:
-        sys.path.insert(0, path)
-
-try:
-    from tvl.tvl_enc import tacvis
-except ImportError:
-    print("Warning: 'tvl' module not found. Tactile features might fail.")
 
 TACTILE_TOKEN_LEN = 196
 

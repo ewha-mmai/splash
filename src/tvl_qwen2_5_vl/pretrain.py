@@ -3,7 +3,6 @@ import sys
 import torch
 import random
 import wandb
-import timm
 from tqdm import tqdm
 from dataclasses import dataclass, field
 from typing import Optional, List
@@ -22,10 +21,7 @@ root_dir = os.path.dirname(os.path.dirname(current_dir))
 
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
-if os.path.join(root_dir, "tvl") not in sys.path:
-    sys.path.insert(0, os.path.join(root_dir, "tvl"))   
-
-from tvl.tvl_enc import tacvis
+from src.util import tactile_preprocess as tacvis
 from src.tvl_qwen2_5_vl.models.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
 from src.splash_3B.dataset import PretrainDataset, DataCollatorForTactileDataset
 
@@ -40,19 +36,14 @@ torch.linspace = _safe_linspace
 @dataclass
 class ModelArguments:
     model_name_or_path: str = field(
-        default=os.path.join(root_dir, "pretrained/Qwen2.5-VL-3B-Instruct")
+        default=os.path.join(root_dir, "checkpoints/Qwen2.5-VL-3B-Instruct")
     )
     tactile_ckpt: Optional[str] = field(
         default=os.path.join(
             root_dir,
-            "pretrained/Touch-Vision-Language-Models/ckpt/tvl_enc/tvl_enc_vittiny.pth"
+            "checkpoints/Touch-Vision-Language-Models/ckpt/tvl_enc/tvl_enc_vittiny.pth"
         )
     )
-    baseline_mode: str = field(
-        default="baseline1",
-        metadata={"help": "baseline1 | baseline2"}
-    )
-
 
 @dataclass
 class DataArguments:
@@ -69,7 +60,7 @@ class DataArguments:
 
 @dataclass
 class CustomTrainingArguments(TrainingArguments):
-    output_dir: str = field(default="./outputs")
+    output_dir: str = field(default=os.path.join(root_dir, "src/tvl_qwen2_5_vl/outputs/pretrain"))
 
     seed: int = field(default=42)
 
@@ -80,7 +71,6 @@ class CustomTrainingArguments(TrainingArguments):
     gradient_checkpointing: bool = field(default=True)
 
     blr: float = field(default=1e-4)
-    encoder_lr_scale: float = field(default=1.0)
     projector_lr_scale: float = field(default=5.0)
     weight_decay: float = field(default=0.01)
     max_grad_norm: float = field(default=1.0)
@@ -141,13 +131,9 @@ class LayerWiseTrainer(Trainer):
 
         base_lr = self.args.blr * eff_batch / 256
 
-        encoder_lr = base_lr * self.args.encoder_lr_scale
         projector_lr = base_lr * self.args.projector_lr_scale
 
-        baseline_mode = getattr(self.args, "baseline_mode", "baseline1")
-
         projector_params = []
-        encoder_params = []
         other_params = []
 
         for name, p in model.named_parameters():
@@ -156,39 +142,17 @@ class LayerWiseTrainer(Trainer):
             print(f"DEBUG: Trainable Param Found -> {name}")
             if "tactile_projector" in name:
                 projector_params.append(p)
-            elif "tactile_encoder" in name:
-                encoder_params.append(p)
             else:
                 other_params.append(p)
 
         optimizer_grouped_parameters = []
 
-        if baseline_mode == "baseline1":
-            if projector_params:
-                optimizer_grouped_parameters.append({
-                    "params": projector_params,
-                    "lr": projector_lr,
-                    "weight_decay": self.args.weight_decay,
-                })
-
-        elif baseline_mode == "baseline2":
-
-            if projector_params:
-                optimizer_grouped_parameters.append({
-                    "params": projector_params,
-                    "lr": projector_lr,
-                    "weight_decay": self.args.weight_decay,
-                })
-
-            if encoder_params:
-                optimizer_grouped_parameters.append({
-                    "params": encoder_params,
-                    "lr": encoder_lr,
-                    "weight_decay": self.args.weight_decay,
-                })
-
-        else:
-            raise ValueError("baseline_mode must be baseline1 or baseline2")
+        if projector_params:
+            optimizer_grouped_parameters.append({
+                "params": projector_params,
+                "lr": projector_lr,
+                "weight_decay": self.args.weight_decay,
+            })
 
         optimizer_cls, optimizer_kwargs = Trainer.get_optimizer_cls_and_kwargs(self.args)
         self.optimizer = optimizer_cls(optimizer_grouped_parameters, **optimizer_kwargs)
@@ -372,51 +336,27 @@ def train():
 
     backbone = model.model if hasattr(model, "model") else model
 
-    if model_args.baseline_mode == "baseline1":
-        assert os.path.exists(model_args.tactile_ckpt)
-        ckpt = torch.load(model_args.tactile_ckpt, map_location="cpu", weights_only=False)
-        state = ckpt["model"] if "model" in ckpt else ckpt
+    assert os.path.exists(model_args.tactile_ckpt)
+    ckpt = torch.load(model_args.tactile_ckpt, map_location="cpu", weights_only=False)
+    state = ckpt["model"] if "model" in ckpt else ckpt
 
-        cleaned = {}
-        for k, v in state.items():
-            k = k.replace("tactile_encoder.", "").replace("encoder.", "")
-            if "head" in k:
-                continue
-            cleaned[k] = v
+    cleaned = {}
+    for k, v in state.items():
+        k = k.replace("tactile_encoder.", "").replace("encoder.", "")
+        if "head" in k:
+            continue
+        cleaned[k] = v
 
-        if hasattr(backbone.tactile_encoder, "encoder"):
-            target = backbone.tactile_encoder.encoder
-        else:
-            target = backbone.tactile_encoder
-        target.load_state_dict(cleaned, strict=False)
-
-    elif model_args.baseline_mode == "baseline2":
-        timm_model = timm.create_model("vit_tiny_patch16_224", pretrained=True)
-        timm_state = timm_model.state_dict()
-
-        if hasattr(backbone.tactile_encoder, "encoder"):
-            target = backbone.tactile_encoder.encoder
-        else:
-            target = backbone.tactile_encoder
-
-        missing, unexpected = target.load_state_dict(timm_state, strict=False)
-
-        print(f"Missing keys: {len(missing)}")
-        print(f"Unexpected keys: {len(unexpected)}")
-        
-        del timm_model
-
+    if hasattr(backbone.tactile_encoder, "encoder"):
+        target = backbone.tactile_encoder.encoder
     else:
-        raise ValueError("baseline_mode must be baseline1 or baseline2")
+        target = backbone.tactile_encoder
+    target.load_state_dict(cleaned, strict=False)
 
     model.requires_grad_(False)
 
     for p in backbone.tactile_projector.parameters():
         p.requires_grad = True
-
-    if model_args.baseline_mode == "baseline2":
-        for p in backbone.tactile_encoder.parameters():
-            p.requires_grad = True
 
     if training_args.gradient_checkpointing:
         model.enable_input_require_grads()
@@ -453,8 +393,6 @@ def train():
     )
 
     analyze_token_distribution(train_dataset, num_samples=3)
-
-    training_args.baseline_mode = model_args.baseline_mode
 
     trainer = LayerWiseTrainer(
         model=model,

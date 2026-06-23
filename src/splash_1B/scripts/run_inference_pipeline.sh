@@ -1,13 +1,21 @@
 #!/bin/bash
+set -e
 
-SPARSITIES=(60)
-CHECKPOINTS=(2428)
+ROOT_DIR="$(pwd)"
+GPU=${GPU:-2}
+SPARSITY=${1:-60}
+CKPT_STEP=${2:-2428}
 
-for S in "${SPARSITIES[@]}"; do
-  for C in "${CHECKPOINTS[@]}"; do
+CKPT=${CKPT:-"${ROOT_DIR}/src/splash_1B/outputs/${SPARSITY}/checkpoint-${CKPT_STEP}"}
+DATASET_ROOT="${ROOT_DIR}/dataset/"
+OUTPUT_CSV="${ROOT_DIR}/src/splash_1B/outputs/${SPARSITY}/inference_${CKPT_STEP}.csv"
+OUTPUT_JSON="${ROOT_DIR}/src/splash_1B/outputs/${SPARSITY}/evaluation_${CKPT_STEP}_gpt-4o.json"
 
-    bash src/splash_1B/scripts/run_intern_inference.sh $S $C
-    bash src/splash_1B/scripts/run_intern_evaluation.sh $S $C
+CUDA_VISIBLE_DEVICES=$GPU python src/splash_1B/inference.py \
+  --ckpt "$CKPT" \
+  --dataset_root "$DATASET_ROOT" \
+  --output_csv "$OUTPUT_CSV"
 
-  done
-done
+PYTHONPATH=$ROOT_DIR python src/evaluation.py \
+  --csv_path "$OUTPUT_CSV" \
+  --output_json "$OUTPUT_JSON"

@@ -14,17 +14,12 @@ from peft import PeftModel
 current_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.dirname(os.path.dirname(current_dir))
 
-for path in [root_dir, os.path.join(root_dir, "tvl")]:
+for path in [root_dir]:
     if path not in sys.path:
         sys.path.insert(0, path)
 
 from src.tvl_qwen2_5_vl.models.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
 from src.util.data_utils import load_vision_image, load_tactile_data, inject_tactile_tokens
-
-try:
-    from tvl.tvl_enc import tacvis
-except ImportError:
-    print("Warning: 'tvl' module not found. Tactile features might fail.")
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -44,7 +39,7 @@ def parse_args():
     parser.add_argument("--gpu", type=str, default="0", help="GPU Device ID")
     
     parser.add_argument("--base_model", type=str, required=True, help="Base HF model path")
-    parser.add_argument("--pretrain_ckpt", type=str, required=True, help="Path to pretrained checkpoint")
+    parser.add_argument("--checkpoint_path", type=str, required=True, help="Path to model checkpoint")
     parser.add_argument("--finetune_ckpt", type=str, required=False, help="Path to LoRA adapter")
     
     parser.add_argument("--dataset_root", type=str, required=True, help="Root directory of datasets")
@@ -54,10 +49,10 @@ def parse_args():
 
 
 def load_model_pipeline(args):
-    print(f"[Init] Loading Base Model from: {args.pretrain_ckpt}")
+    print(f"[Init] Loading Model Checkpoint from: {args.checkpoint_path}")
     
     model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
-        args.pretrain_ckpt,
+        args.checkpoint_path,
         device_map=None,
         torch_dtype=DTYPE,
         low_cpu_mem_usage=False,
@@ -68,7 +63,7 @@ def load_model_pipeline(args):
     model.to(DEVICE) 
 
     processor = AutoProcessor.from_pretrained(args.base_model, trust_remote_code=True)
-    tokenizer = AutoTokenizer.from_pretrained(args.pretrain_ckpt, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(args.checkpoint_path, trust_remote_code=True)
     processor.tokenizer = tokenizer
 
     processor.image_processor.min_pixels = 224 * 224

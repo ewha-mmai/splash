@@ -1,13 +1,26 @@
 #!/bin/bash
+set -e
 
-SPARSITIES=(60)
-CHECKPOINTS=(1214)
+ROOT_DIR="$(pwd)"
+GPU=${GPU:-0}
+MODE=${MODE:-else}
+SPARSITY=${1:-60}
+CKPT_STEP=${2:-1214}
 
-for S in "${SPARSITIES[@]}"; do
-  for C in "${CHECKPOINTS[@]}"; do
+BASE_MODEL="${ROOT_DIR}/checkpoints/Qwen2.5-VL-3B-Instruct"
+CHECKPOINT_PATH=${CHECKPOINT_PATH:-"${ROOT_DIR}/src/splash_3B/outputs/${SPARSITY}/checkpoint-${CKPT_STEP}"}
+DATASET_ROOT="${ROOT_DIR}/dataset/"
+OUTPUT_CSV="${ROOT_DIR}/src/splash_3B/outputs/${SPARSITY}/inference_${CKPT_STEP}.csv"
+OUTPUT_JSON="${ROOT_DIR}/src/splash_3B/outputs/${SPARSITY}/evaluation_${CKPT_STEP}_gpt-4o.json"
 
-    bash src/splash_3B/scripts/run_mask_inference.sh $S $C
-    bash src/splash_3B/scripts/run_mask_evaluation.sh $S $C
+CUDA_VISIBLE_DEVICES=$GPU python src/splash_3B/inference.py \
+  --model_mode "$MODE" \
+  --gpu "$GPU" \
+  --base_model "$BASE_MODEL" \
+  --checkpoint_path "$CHECKPOINT_PATH" \
+  --dataset_root "$DATASET_ROOT" \
+  --output_csv "$OUTPUT_CSV"
 
-  done
-done
+PYTHONPATH=$ROOT_DIR python src/evaluation.py \
+  --csv_path "$OUTPUT_CSV" \
+  --output_json "$OUTPUT_JSON"

@@ -22,9 +22,6 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.dirname(os.path.dirname(current_dir))
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
-tvl_inner_dir = os.path.join(root_dir, "tvl")
-if tvl_inner_dir not in sys.path:
-    sys.path.insert(0, tvl_inner_dir)
 
 _original_linspace = torch.linspace
 def _safe_linspace(*args, **kwargs):
@@ -36,9 +33,9 @@ torch.linspace = _safe_linspace
 from src.tvl_qwen2_5_vl.models.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
 from src.splash_3B.dataset import FinetuneDataset, DataCollatorForTactileDataset
 
-DEFAULT_PRETRAINED_CKPT = os.path.join(root_dir, "pretrained/Qwen2.5-VL-3B-Instruct")
+DEFAULT_MODEL_CKPT = os.path.join(root_dir, "checkpoints/Qwen2.5-VL-3B-Instruct")
 DEFAULT_DS_CONFIG = os.path.join(root_dir, "src/configs/ds_config_stage2.json")
-DEFAULT_OUTPUT_DIR = os.path.join(root_dir, "src/outputs/baseline_finetune")
+DEFAULT_OUTPUT_DIR = os.path.join(root_dir, "src/tvl_qwen2_5_vl/outputs/finetune")
 DEFAULT_WANDB_PROJECT = "SPLASH-Baseline"
 DEFAULT_WANDB_RUN_NAME = "tvl_qwen_finetune"
 
@@ -47,7 +44,7 @@ DEFAULT_WANDB_RUN_NAME = "tvl_qwen_finetune"
 class ModelArguments:
     """    """
     model_name_or_path: str = field(
-        default=DEFAULT_PRETRAINED_CKPT,
+        default=DEFAULT_MODEL_CKPT,
         metadata={"help": "Path to pretrained model or model identifier"}
     )
     freeze_tactile_encoder: bool = field(
