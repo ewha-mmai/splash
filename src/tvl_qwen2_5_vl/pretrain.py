@@ -62,9 +62,9 @@ class DataArguments:
     eval_data_config: str = field(
         default=os.path.join(root_dir, "src/configs/pretrain-data-eval-config.yaml")
     )
-    wandb_entity: str = field(default="pyoon0820-ewha-womans-university")
-    wandb_project: str = field(default="Baseline")
-    wandb_run_name: str = field(default="bs2_pretrain")
+    wandb_entity: str = field(default="your-wandb-entity")
+    wandb_project: str = field(default="SPLASH-Baseline")
+    wandb_run_name: str = field(default="tvl_qwen_pretrain")
 
 
 @dataclass

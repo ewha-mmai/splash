@@ -11,10 +11,10 @@ ROOT_DIR="$(pwd)"
 SPARSITY=${1:-60}
 
 STUDENT_PATH="${ROOT_DIR}/pretrained/Qwen2.5-VL-3B-Instruct"
-MASK_PATH="${ROOT_DIR}/src/masks/${SPARSITY}/mask_wanda_shallow_adaptive_${SPARSITY}_samples_128_det.pt"
+MASK_PATH="${ROOT_DIR}/src/masks/${SPARSITY}/mask_wanda_skip_${SPARSITY}.pt"
 TRAIN_CONFIG="${ROOT_DIR}/src/configs/finetune-data-train-config.yaml"
 EVAL_CONFIG="${ROOT_DIR}/src/configs/finetune-data-eval-config.yaml"
-OUTPUT_DIR="${ROOT_DIR}/src/outputs0510/${SPARSITY}/layerwise_shallow_adaptive_t2"
+OUTPUT_DIR="${ROOT_DIR}/src/outputs/3B_${SPARSITY}"
 DS_CONFIG="${ROOT_DIR}/src/configs/ds_config_stage2.json"
 
 export PYTORCH_ALLOC_CONF=expandable_segments:True
@@ -29,7 +29,7 @@ torchrun \
     --eval_data_config "$EVAL_CONFIG" \
     --output_dir "$OUTPUT_DIR" \
     --deepspeed "$DS_CONFIG" \
-    --run_name "${SPARSITY}_layerwise_shallow_adaptive_t2" \
+    --run_name "3B_${SPARSITY}" \
     --per_device_train_batch_size 16 \
     --gradient_accumulation_steps 1 \
     --learning_rate 2e-5 \

@@ -19,12 +19,12 @@ export PYTHONPATH=$ROOT_DIR:$PYTHONPATH
 SPARSITY=${1:-60}
 
 STUDENT_PATH="${ROOT_DIR}/pretrained/InternVL2_5-1B"
-MASK_PATH="${ROOT_DIR}/src/masks/${SPARSITY}_internvl/mask_wanda_${SPARSITY}_det.pt"
+MASK_PATH="${ROOT_DIR}/src/masks/${SPARSITY}_internvl/mask_wanda_${SPARSITY}.pt"
 
 TRAIN_CONFIG="${ROOT_DIR}/src/configs/finetune-data-train-config.yaml"
 EVAL_CONFIG="${ROOT_DIR}/src/configs/finetune-data-eval-config.yaml"
 
-OUTPUT_DIR="${ROOT_DIR}/src/outputs/1B_mask_${SPARSITY}_det"
+OUTPUT_DIR="${ROOT_DIR}/src/outputs/1B_mask_${SPARSITY}"
 DS_CONFIG="${ROOT_DIR}/src/configs/ds_config_stage2.json"
 
 export PYTORCH_ALLOC_CONF=expandable_segments:True

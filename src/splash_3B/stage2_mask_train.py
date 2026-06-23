@@ -132,7 +132,7 @@ def main():
         print(f" New W&B run: {run_id}")
 
     wandb.init(
-        project="VLT-Distillation",
+        project="SPLASH",
         id=run_id,
         resume="allow",
         name=training_args.run_name,

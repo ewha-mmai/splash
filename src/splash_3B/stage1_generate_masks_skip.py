@@ -28,10 +28,10 @@ root_dir = os.path.dirname(os.path.dirname(current_dir))
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
-MODEL_ID = os.path.join(root_dir, "VLT/pretrained/Qwen2.5-VL-3B-Instruct")
-CC3M_TEXT_PATH = os.path.join(root_dir, "VLT/dataset/LLaVA-CC3M-Pretrain-595K/chat.json")
-CC3M_IMAGE_PATH = os.path.join(root_dir, "VLT/dataset/cc3m")
-SAVE_DIR = os.path.join(root_dir, "VLT/src/masks/60")
+MODEL_ID = os.path.join(root_dir, "pretrained/Qwen2.5-VL-3B-Instruct")
+CC3M_TEXT_PATH = os.path.join(root_dir, "dataset/LLaVA-CC3M-Pretrain-595K/chat.json")
+CC3M_IMAGE_PATH = os.path.join(root_dir, "dataset/cc3m")
+SAVE_DIR = os.path.join(root_dir, "src/masks/60")
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -287,7 +287,7 @@ def generate_weight_wanda_mask(model, processor):
 
     print(f"Actual Sparsity: {pruned/total:.4f}")
 
-    save_path = os.path.join(SAVE_DIR, "mask_wanda_skip_v2.pt")
+    save_path = os.path.join(SAVE_DIR, f"mask_wanda_skip_{int(PRUNING_RATIO*100)}.pt")
     torch.save(masks, save_path)
     print(f" Saved Wanda Mask: {save_path}")
 

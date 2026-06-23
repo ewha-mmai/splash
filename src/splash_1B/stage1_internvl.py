@@ -246,7 +246,7 @@ def generate_weight_wanda_mask(model, tokenizer):
 
             masks[key] = mask.cpu()
 
-    save_path = os.path.join(SAVE_DIR, f"mask_wanda_{int(PRUNING_RATIO*100)}_det.pt")
+    save_path = os.path.join(SAVE_DIR, f"mask_wanda_{int(PRUNING_RATIO*100)}.pt")
     torch.save(masks, save_path)
     print(f" Saved InternVL Wanda Mask: {save_path}")
 

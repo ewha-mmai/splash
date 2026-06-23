@@ -7,9 +7,9 @@ SPARSITY=${1:-60}
 CKPT_STEP=${2:-1214}
 
 BASE_MODEL="${ROOT_DIR}/pretrained/Qwen2.5-VL-3B-Instruct"
-PRETRAIN_CKPT="${ROOT_DIR}/src/outputs0510/${SPARSITY}/layerwise_shallow_adaptive_t2/checkpoint-${CKPT_STEP}"
+PRETRAIN_CKPT="${ROOT_DIR}/src/outputs/3B_${SPARSITY}/checkpoint-${CKPT_STEP}"
 DATASET_ROOT="${ROOT_DIR}/dataset/"
-OUTPUT="${ROOT_DIR}/src/outputs0510/${SPARSITY}/layerwise_shallow_adaptive_t2/inference_${CKPT_STEP}.csv"
+OUTPUT="${ROOT_DIR}/src/outputs/3B_${SPARSITY}/inference_${CKPT_STEP}.csv"
 
 CUDA_VISIBLE_DEVICES=$GPU python src/splash_3B/inference.py \
   --model_mode $MODE \

@@ -148,7 +148,7 @@ def main():
         with open(run_id_file, "w") as f: f.write(run_id)
 
     wandb.init(
-        project="VLT-Distillation",
+        project="SPLASH",
         id=run_id,
         resume="allow",
         name=training_args.run_name,

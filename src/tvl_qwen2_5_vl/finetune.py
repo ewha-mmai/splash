@@ -36,12 +36,11 @@ torch.linspace = _safe_linspace
 from src.tvl_qwen2_5_vl.models.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
 from src.splash_3B.dataset import FinetuneDataset, DataCollatorForTactileDataset
 
-DEFAULT_PRETRAINED_CKPT = os.path.join(root_dir, "src/baseline/outputs/pretrain_bs2/checkpoint-2428")
-DEFAULT_CONFIG_PATH = os.path.join(root_dir, "src/configs/finetune-data-config.yaml")
-DEFAULT_DS_CONFIG = os.path.join(root_dir, "src/baseline/configs/ds_config_stage2.json")
-DEFAULT_OUTPUT_DIR = os.path.join(root_dir, "src/baseline/outputs/finetune_bs2")
-DEFAULT_WANDB_PROJECT = "Baseline"
-DEFAULT_WANDB_RUN_NAME = "bs2_finetune"
+DEFAULT_PRETRAINED_CKPT = os.path.join(root_dir, "pretrained/Qwen2.5-VL-3B-Instruct")
+DEFAULT_DS_CONFIG = os.path.join(root_dir, "src/configs/ds_config_stage2.json")
+DEFAULT_OUTPUT_DIR = os.path.join(root_dir, "src/outputs/baseline_finetune")
+DEFAULT_WANDB_PROJECT = "SPLASH-Baseline"
+DEFAULT_WANDB_RUN_NAME = "tvl_qwen_finetune"
 
 
 @dataclass
@@ -72,7 +71,7 @@ class DataArguments:
         metadata={"help": "Path to EVAL data config yaml"}
     )
     wandb_entity: str = field(
-        default="pyoon0820-ewha-womans-university",
+        default="your-wandb-entity",
         metadata={"help": "WandB entity name"}
     )
     wandb_project: str = field(

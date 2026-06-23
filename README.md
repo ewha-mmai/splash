@@ -1,6 +1,6 @@
 # SPLASH: Wake up for Touch! Mask-isolated Tactile Alignment Learning in MLLMs
 
-This repository contains the official implementation of **SPLASH** (**SP**arsity-based Tactile **AL**ignment Learning for Multimodal LLMs).
+This repository contains the official implementation of **SPLASH**.
 
 SPLASH integrates tactile perception into vision-language models through a two-stage pipeline: (1) generating Wanda-based sparsity masks for the LLM backbone, and (2) fine-tuning with mask-guided sparse training to align tactile representations without degrading existing visual-language capabilities.
 
@@ -39,8 +39,7 @@ SPLASH supports two backbone architectures:
 │   ├── util/                     # Data loading and evaluation utilities
 │   ├── configs/                  # DeepSpeed and data configs
 │   ├── evaluation.py             # LLM-as-judge evaluation
-│   ├── objective_evaluation.py   # Keyword-based objective evaluation
-│   └── stage1_qwen_tvl.py        # Mask generation for vanilla Qwen
+│   └── objective_evaluation.py   # Keyword-based objective evaluation
 ├── tvl/                          # Touch-Vision-Language encoder
 │   ├── tvl_enc/                  # TVL encoder (pretraining)
 │   └── tvl_llama/                # TVL-LLaMA (fine-tuning & evaluation)
@@ -63,20 +62,36 @@ pip install -r requirements.txt
 - CUDA >= 12.0
 - 2+ GPUs recommended for distributed training
 
+### Baseline Dependencies (Optional)
+
+To run the **UniTouch baseline** (`src/unitouch/`), you need to install [ImageBind](https://github.com/facebookresearch/ImageBind) separately:
+```bash
+git clone https://github.com/facebookresearch/ImageBind.git
+cd ImageBind && pip install -e .
+```
+
 ### Pretrained Models
 
-Download and place the following pretrained models under `pretrained/`:
+Please download the following pretrained models from their official repositories and organize them as follows:
 
-| Model | Path |
-|-------|------|
-| InternVL 2.5-1B | `pretrained/InternVL2_5-1B/` |
-| Qwen 2.5-VL-3B-Instruct | `pretrained/Qwen2.5-VL-3B-Instruct/` |
+```
+SPLASH/
+└── pretrained/
+    ├── InternVL2_5-1B/
+    └── Qwen2.5-VL-3B-Instruct/
+```
+
+| Model | Source | Local Path |
+|---------|---------|---------|
+| InternVL2.5-1B | `OpenGVLab/InternVL2_5-1B` | `pretrained/InternVL2_5-1B/` |
+| Qwen2.5-VL-3B-Instruct | `Qwen/Qwen2.5-VL-3B-Instruct` | `pretrained/Qwen2.5-VL-3B-Instruct/` |
 
 ## Usage
 
 ### Stage 1: Generate Sparsity Masks
 
 Generate Wanda-based sparsity masks for the LLM backbone using calibration data.
+**Note:** Stage 1 requires both the pretrained checkpoints and the `LLaVA-CC3M-Pretrain-595K` calibration dataset prepared under the project root.
 
 **SPLASH-1B (InternVL):**
 ```bash
@@ -122,6 +137,13 @@ bash src/splash_3B/scripts/run_mask_inference.sh [SPARSITY] [CHECKPOINT_STEP]
 ### Evaluation
 
 Run the full inference + evaluation pipeline:
+
+**SPLASH-1B:**
+```bash
+bash src/splash_1B/scripts/run_inference_pipeline.sh
+```
+
+**SPLASH-3B:**
 ```bash
 bash src/splash_3B/scripts/run_inference_pipeline.sh
 ```
@@ -138,21 +160,26 @@ Supported judge types: `gpt4`, `gpt5`, `llama`, `vicuna`
 
 ## Data Preparation
 
-Prepare your tactile datasets under `dataset/` with the following structure:
+Prepare the datasets under the project root as follows:
 
 ```
-dataset/
-├── tvl_dataset/
-│   ├── ssvtp/
-│   │   ├── finetune_train.json
-│   │   └── finetune_val.json
-│   └── hct/
-│       ├── data1/
-│       ├── data2/
-│       └── data3/
-└── LLaVA-CC3M-Pretrain-595K/   # For mask calibration
-    └── chat.json
+SPLASH/
+├── dataset/
+│   ├── tvl_dataset/
+│   │   ├── ssvtp/
+│   │   │   ├── finetune_train.json
+│   │   │   └── finetune_val.json
+│   │   └── hct/
+│   │       ├── data1/
+│   │       ├── data2/
+│   │       └── data3/
+│   └── LLaVA-CC3M-Pretrain-595K/
+│       └── chat.json
+└── pretrained/
 ```
+
+- `LLaVA-CC3M-Pretrain-595K` is required for Stage 1 Wanda mask generation.
+- `tvl_dataset` is used for Stage 2 fine-tuning and evaluation.
 
 Each annotation JSON follows the conversation format:
 ```json
@@ -173,7 +200,9 @@ Each annotation JSON follows the conversation format:
 - **DeepSpeed config:** `src/configs/ds_config_stage2.json` (ZeRO Stage 2)
 - **Training data:** `src/configs/finetune-data-train-config.yaml`
 - **Eval data:** `src/configs/finetune-data-eval-config.yaml`
-- **WandB:** Set your API key via `export WANDB_API_KEY='your_key'`
+- **WandB (optional):**
+  - Enable logging: `export WANDB_API_KEY=<your_wandb_api_key>`
+  - Disable logging: `export WANDB_MODE=disabled`
 - **OpenAI (for GPT-judge):** Set via `OPENAI_API_KEY` in a `.env` file
 
 ## Citation
@@ -189,4 +218,4 @@ Each annotation JSON follows the conversation format:
 
 ## License
 
-TBD
+License information will be updated upon public release.

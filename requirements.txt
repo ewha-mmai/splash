@@ -20,5 +20,7 @@ pyyaml>=6.0
 python-dotenv>=1.0.0
 tqdm>=4.65.0
 wandb>=0.16.0
+openai>=1.0.0
 qwen-vl-utils>=0.0.10
 open-clip-torch>=2.20.0
+fairscale>=0.4.0
