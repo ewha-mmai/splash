@@ -50,6 +50,25 @@ a:hover { text-decoration: underline; }
   text-align: center;
   padding: 60px 0 32px;
 }
+.hero .venue {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+.hero .venue img {
+  height: 64px;
+  width: auto;
+}
+.hero .venue .venue-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
 .hero h1 {
   font-size: clamp(28px, 5vw, 44px);
   font-weight: 700;
@@ -317,6 +336,11 @@ footer a { color: var(--text-dim); }
 
 <header class="hero">
   <div class="container">
+    <div class="venue">
+      <img src="static/images/eccv2026.svg" alt="ECCV 2026" />
+      <span class="venue-label">Accepted to ECCV 2026</span>
+    </div>
+
     <h1>Wake up for Touch!<br>Mask-isolated Tactile Alignment Learning in MLLMs</h1>
 
     <p class="subtitle">Teaching compact multimodal models to <em>feel</em> without forgetting how to <em>see</em>.</p>
@@ -328,7 +352,7 @@ footer a { color: var(--text-dim); }
       Jiyoung Lee<sup>&dagger;</sup>
     </div>
     <div class="affil">Ewha Womans University</div>
-    <div class="note"><span class="eq">*</span> Equal contribution&ensp;·&ensp;<sup>&dagger;</sup> Corresponding author</div>
+    <div class="note"><span class="eq">*</span> Equal contribution (co-first authors)&ensp;·&ensp;<sup>&dagger;</sup> Corresponding author</div>
 
     <div class="btn-row">
       <a class="btn" href="#" id="paperLink">
@@ -480,10 +504,14 @@ footer a { color: var(--text-dim); }
     <h2>BibTeX</h2>
     <div class="bibtex-box">
       <button class="copy-btn" id="copyBib">Copy</button>
-      <pre id="bibText">@article{park2026splash,
-  title   = {Wake up for Touch! Mask-isolated Tactile Alignment Learning in MLLMs},
-  author  = {Park, Yoonhyung and Kim, Minji and Moon, Sungwon and Lee, Jiyoung},
-  year    = {2026}
+      <pre id="bibText">@inproceedings{park2026splash,
+  title     = {Wake up for Touch! Mask-isolated Tactile
+               Alignment Learning in MLLMs},
+  author    = {Park, Yoonhyung and Kim, Minji and
+               Moon, Sungwon and Lee, Jiyoung},
+  booktitle = {Proceedings of the European Conference
+               on Computer Vision (ECCV)},
+  year      = {2026}
 }</pre>
     </div>
   </div>
