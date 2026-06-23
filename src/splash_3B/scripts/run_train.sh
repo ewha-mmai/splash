@@ -5,7 +5,11 @@ export MASTER_PORT=$(shuf -n 1 -i 10000-65535)
 
 export CUDA_VISIBLE_DEVICES=2,3
 
-export WANDB_API_KEY='your_wandb_api_key'
+if [ -n "$WANDB_API_KEY" ]; then
+  REPORT_TO="wandb"
+else
+  REPORT_TO="none"
+fi
 
 ROOT_DIR="$(pwd)"
 SPARSITY=${1:-60}
@@ -29,7 +33,7 @@ torchrun \
     --eval_data_config "$EVAL_CONFIG" \
     --output_dir "$OUTPUT_DIR" \
     --deepspeed "$DS_CONFIG" \
-    --run_name "3B_${SPARSITY}" \
+    --run_name "splash_3B_${SPARSITY}" \
     --per_device_train_batch_size 16 \
     --gradient_accumulation_steps 1 \
     --learning_rate 2e-5 \
@@ -45,7 +49,7 @@ torchrun \
     --metric_for_best_model eval_loss_task \
     --load_best_model_at_end True \
     --greater_is_better False \
-    --report_to "wandb" \
+    --report_to "$REPORT_TO" \
     --ddp_find_unused_parameters False \
     --gradient_checkpointing True \
     --dataloader_num_workers 16 \

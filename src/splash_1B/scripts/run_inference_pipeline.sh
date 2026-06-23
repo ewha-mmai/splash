@@ -6,13 +6,13 @@ GPU=${GPU:-2}
 SPARSITY=${1:-60}
 CKPT_STEP=${2:-2428}
 
-CKPT=${CKPT:-"${ROOT_DIR}/src/splash_1B/outputs/${SPARSITY}/checkpoint-${CKPT_STEP}"}
+CHECKPOINT_PATH=${CHECKPOINT_PATH:-"${ROOT_DIR}/src/splash_1B/outputs/${SPARSITY}/checkpoint-${CKPT_STEP}"}
 DATASET_ROOT="${ROOT_DIR}/dataset/"
 OUTPUT_CSV="${ROOT_DIR}/src/splash_1B/outputs/${SPARSITY}/inference_${CKPT_STEP}.csv"
 OUTPUT_JSON="${ROOT_DIR}/src/splash_1B/outputs/${SPARSITY}/evaluation_${CKPT_STEP}_gpt-4o.json"
 
 CUDA_VISIBLE_DEVICES=$GPU python src/splash_1B/inference.py \
-  --ckpt "$CKPT" \
+  --ckpt "$CHECKPOINT_PATH" \
   --dataset_root "$DATASET_ROOT" \
   --output_csv "$OUTPUT_CSV"
 

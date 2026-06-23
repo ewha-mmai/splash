@@ -9,7 +9,11 @@ export CUBLAS_WORKSPACE_CONFIG=:4096:8
 
 export CUDA_VISIBLE_DEVICES=2,3
 
-export WANDB_API_KEY='your_wandb_api_key'
+if [ -n "$WANDB_API_KEY" ]; then
+  REPORT_TO="wandb"
+else
+  REPORT_TO="none"
+fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOT_DIR="$( dirname "$( dirname "$( dirname "$SCRIPT_DIR" )" )" )"
@@ -58,7 +62,7 @@ torchrun \
     --metric_for_best_model eval_loss \
     --load_best_model_at_end True \
     --greater_is_better False \
-    --report_to "wandb" \
+    --report_to "$REPORT_TO" \
     --ddp_find_unused_parameters False \
     --gradient_checkpointing True \
     --dataloader_num_workers 16 \
