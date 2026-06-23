@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Splash — Mask-isolated Tactile Alignment Learning in MLLMs</title>
+<title>SPLASH — Mask-isolated Tactile Alignment Learning in MLLMs</title>
 <meta name="description" content="Splash: a mask-isolated tactile alignment learning framework that wakes up dormant parameters in small MLLMs to learn touch without forgetting vision." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -386,7 +386,7 @@ footer a { color: var(--text-dim); }
   <div class="container">
     <h2>Abstract</h2>
     <p class="abstract-text">
-      Touch supplies the physical grounding needed to perceive intrinsic material properties, such as friction and compliance, that vision alone often cannot resolve. Equipping multimodal large language models (MLLMs) with this tactile sense, alongside their pretrained vision-language ability, is a natural step toward reasoning about the physical world. In real-world deployment, however, doing so exposes a zero-sum trade-off: the limited parameter budget of compact models forces a choice between acquiring the new sensory modality and preserving the established vision-language reasoning. We present <b>Splash</b>, a mask-isolated tactile alignment learning framework for MLLMs. Splash quantifies the significance of each pretrained parameter and partitions the parameter space into a dormant and critical subspace. While the frozen critical subspace acts as a stable anchor to safeguard general visual knowledge, Splash updates the isolated dormant subspace to internalize tactile alignment towards LLMs. This mechanism effectively prevents catastrophic forgetting and ensures non-destructive modality expansion. Extensive experiments show that Splash achieves state-of-the-art performance on visuo-tactile benchmarks, including SSVTP, TVL, and TacQuad, while preserving its original general-purpose capabilities.
+      Touch supplies the physical grounding needed to perceive intrinsic material properties, such as friction and compliance, that vision alone often cannot resolve. Equipping multimodal large language models (MLLMs) with this tactile sense, alongside their pretrained vision-language ability, is a natural step toward reasoning about the physical world. In real-world deployment, however, doing so exposes a zero-sum trade-off: the limited parameter budget of compact models forces a choice between acquiring the new sensory modality and preserving the established vision-language reasoning. We present <b>SPLASH</b>, a mask-isolated tactile alignment learning framework for MLLMs. SPLASH quantifies the significance of each pretrained parameter and partitions the parameter space into a dormant and critical subspace. While the frozen critical subspace acts as a stable anchor to safeguard general visual knowledge, SPLASH updates the isolated dormant subspace to internalize tactile alignment towards LLMs. This mechanism effectively prevents catastrophic forgetting and ensures non-destructive modality expansion. Extensive experiments show that SPLASH achieves state-of-the-art performance on visuo-tactile benchmarks, including SSVTP, TVL, and TacQuad, while preserving its original general-purpose capabilities.
     </p>
   </div>
 </section>
@@ -420,7 +420,7 @@ footer a { color: var(--text-dim); }
       </div>
       <div class="contrib-item">
         <h3>📦 Works at Small Scale</h3>
-        <p>On Qwen2.5-VL-3B and InternVL-1B, Splash reaches state-of-the-art tactile reasoning while preserving general-purpose ability — outperforming prior 7B methods.</p>
+        <p>On Qwen2.5-VL-3B and InternVL-1B, SPLASH reaches state-of-the-art tactile reasoning while preserving general-purpose ability — outperforming prior 7B methods.</p>
       </div>
     </div>
   </div>
@@ -445,8 +445,8 @@ footer a { color: var(--text-dim); }
     </div>
 
     <figure>
-      <img src="static/images/fig2_framework.png" alt="Splash framework overview: locating the dormant subspace from weight and activation importance, then mask-guided tactile alignment training." />
-      <figcaption><b>Figure 2.</b> The Splash framework. A vision-relative importance score partitions the LLM into frozen <b>critical</b> and trainable <b>dormant</b> weights; the dormant subspace and a lightweight tactile front-end are then trained jointly in a single stage.</figcaption>
+      <img src="static/images/fig2_framework.png" alt="SPLASH framework overview: locating the dormant subspace from weight and activation importance, then mask-guided tactile alignment training." />
+      <figcaption><b>Figure 2.</b> The SPLASH framework. A vision-relative importance score partitions the LLM into frozen <b>critical</b> and trainable <b>dormant</b> weights; the dormant subspace and a lightweight tactile front-end are then trained jointly in a single stage.</figcaption>
     </figure>
   </div>
 </section>
@@ -469,8 +469,8 @@ footer a { color: var(--text-dim); }
           <tr><td>UniTouch</td><td>LLaMA-7B</td><td>3.73</td><td>4.04</td><td>3.44</td><td>3.74</td></tr>
           <tr><td>TVL</td><td>LLaMA-7B</td><td class="second">5.27</td><td class="second">4.38</td><td>3.29</td><td>4.31</td></tr>
           <tr><td>TVL</td><td>Qwen2.5-VL-3B</td><td>4.98</td><td>4.29</td><td>4.22</td><td>4.50</td></tr>
-          <tr class="row-ours"><td>Splash-1B</td><td>InternVL-1B</td><td class="best">5.69</td><td>4.34</td><td class="best">5.02</td><td class="best">5.01</td></tr>
-          <tr class="row-ours"><td>Splash-3B</td><td>Qwen2.5-VL-3B</td><td>5.48</td><td class="best">4.39</td><td class="second">4.86</td><td class="second">4.91</td></tr>
+          <tr class="row-ours"><td>SPLASH-1B</td><td>InternVL-1B</td><td class="best">5.69</td><td>4.34</td><td class="best">5.02</td><td class="best">5.01</td></tr>
+          <tr class="row-ours"><td>SPLASH-3B</td><td>Qwen2.5-VL-3B</td><td>5.48</td><td class="best">4.39</td><td class="second">4.86</td><td class="second">4.91</td></tr>
         </tbody>
       </table>
     </div>
@@ -488,12 +488,12 @@ footer a { color: var(--text-dim); }
           <tr><td>UniTouch</td><td>LLaMA-7B</td><td>26.6</td><td>9.0</td><td>27</td><td>8.5</td><td>8.6</td></tr>
           <tr><td>TVL</td><td>LLaMA-7B</td><td>26.0</td><td>11.6</td><td>582</td><td>8.6</td><td>5.5</td></tr>
           <tr><td>TVL</td><td>Qwen2.5-VL-3B</td><td>50.0</td><td>52.8</td><td class="best">2168</td><td>76.8</td><td>76.5</td></tr>
-          <tr class="row-ours"><td>Splash-1B</td><td>InternVL-1B</td><td>37.3</td><td>41.0</td><td>1786</td><td>70.2</td><td>60.4</td></tr>
-          <tr class="row-ours"><td>Splash-3B</td><td>Qwen2.5-VL-3B</td><td class="best">55.3</td><td class="best">65.3</td><td>2155</td><td class="second">78.0</td><td class="second">76.9</td></tr>
+          <tr class="row-ours"><td>SPLASH-1B</td><td>InternVL-1B</td><td>37.3</td><td>41.0</td><td>1786</td><td>70.2</td><td>60.4</td></tr>
+          <tr class="row-ours"><td>SPLASH-3B</td><td>Qwen2.5-VL-3B</td><td class="best">55.3</td><td class="best">65.3</td><td>2155</td><td class="second">78.0</td><td class="second">76.9</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="tbl-note"><span class="best">Bold</span> = best, <span class="second">underline</span> = second best. Splash preserves — and on MMMU / MathVista exceeds — the pretrained backbone.</p>
+    <p class="tbl-note"><span class="best">Bold</span> = best, <span class="second">underline</span> = second best. SPLASH preserves — and on MMMU / MathVista exceeds — the pretrained backbone.</p>
   </div>
 </section>
 
